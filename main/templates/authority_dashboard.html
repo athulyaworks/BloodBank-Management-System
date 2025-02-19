@@ -1,0 +1,110 @@
+{# authority_dashboard.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Blood Inventory</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Blood Type</th>
+                                    <th>Units Available</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inventory in blood_inventory %}
+                                <tr>
+                                    <td>{{ inventory.blood_type }}</td>
+                                    <td>{{ inventory.units_available }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Pending Donor Requests</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Donor</th>
+                                    <th>Blood Type</th>
+                                    <th>Units</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for donor in donor_requests %}
+                                <tr>
+                                    <td>{{ donor.user.username }}</td>
+                                    
+                                    <td>{{ donor.blood_type }}</td>
+                                    <td>{{ donor.blood_units }}</td>
+                                    <td>
+                                        <a href="{% url 'approve_donor' donor.id %}" class="btn btn-success btn-sm">
+                                            <i class="fas fa-check"></i> Approve
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Pending Patient Requests</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Blood Type</th>
+                                    <th>Units</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in patient_requests %}
+                                <tr>
+                                    <td>{{ request.user.username }}</td>
+                                    <td>{{ request.blood_type }}</td>
+                                    <td>{{ request.units_required }}</td>
+                                    <td>
+                                        <a href="{% url 'approve_patient_request' request.id %}" class="btn btn-success btn-sm">
+                                            <i class="fas fa-check"></i> Approve
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
